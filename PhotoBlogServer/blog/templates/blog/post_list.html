@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📸 Photo Blog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        .nav-links {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 25px;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .nav-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .post-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        .post-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .post-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .post-content {
+            padding: 20px;
+        }
+        .post-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .post-text {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .post-author {
+            color: #999;
+            font-size: 14px;
+        }
+        .post-date {
+            color: #999;
+            font-size: 14px;
+        }
+        .no-posts {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .no-posts h2 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .no-posts p {
+            color: #999;
+            font-size: 18px;
+        }
+        .post-count {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📸 Photo Blog</h1>
+        <p>Django REST Framework Photo Gallery</p>
+    </div>
+
+    <div class="container">
+        <div class="nav-links">
+            <a href="/api_root/Post/">📋 API View</a>
+            <a href="/admin/">⚙️ Admin Panel</a>
+        </div>
+
+        {% if posts %}
+        <div class="post-count">
+            <strong>총 {{ posts|length }}개의 게시물</strong>
+        </div>
+        
+        <div class="post-grid">
+            {% for post in posts %}
+            <div class="post-card">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+                <div class="post-content">
+                    <div class="post-title">{{ post.title }}</div>
+                    <div class="post-text">{{ post.text|truncatewords:15 }}</div>
+                    <div class="post-meta">
+                        <span class="post-author">👤 {{ post.author.username }}</span>
+                        <span class="post-date">📅 {{ post.published_date|date:"Y-m-d H:i" }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-posts">
+            <h2>📭</h2>
+            <h2>아직 게시물이 없습니다</h2>
+            <p>API를 통해 게시물을 추가해보세요!</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

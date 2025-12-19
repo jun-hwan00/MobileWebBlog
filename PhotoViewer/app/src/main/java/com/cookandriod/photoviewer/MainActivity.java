@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         new String[]{Manifest.permission.READ_MEDIA_IMAGES},
                         REQUEST_PERMISSION);
             }
+
         } else {
             // Android 12 이하
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
